@@ -13,13 +13,20 @@ io.on('connection', socket => {
     console.log('[IO] Connection => Server has a new connection')
     socket.on('percent', data => {
         let i = 0;
-        for (i; i <= 100; i++) {
-            console.log('[SOCKET] percent => ', data)
-            io.emit('percent', data = {
-                ...data,
-                percent: i
-            })
+        function loop() {
+            setTimeout(function () {
+                i++;
+                if (i <= 100) {
+                    console.log('[SOCKET] percent => ', data)
+                    io.emit('percent', data = {
+                        ...data,
+                        percent: i
+                    })
+                    loop();
+                }
+            }, 500)
         }
+        loop();
     })
     socket.on('disconnect', () => {
         console.log('[SOCKET] Disconnect => A connection was disconnected')
